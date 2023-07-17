@@ -45,9 +45,13 @@
                 <label for="menu">Select Food Item's</label><br>
                 <select name="menu" id="menu">
                     <option>--Select--</option>
-                    <option value="Tea">Tea Price:100</option>
-                    <option value="Cofee">Cofee Price:200</option>
-                    <option value="Samosa">Samosa Price:300</option>
+                    <option value="Tea/100">Tea Price:100</option>
+                    <option value="Cofee/200">Cofee Price:200</option>
+                    <option value="Samosa/300">Samosa Price:300</option>
+                    <option value="Masala Dhosa/400">Masala Dhosa Price:400</option>
+                    <option value="Maggie/150">Maggie Price:150</option>
+
+
                 </select>
 
             </div>
@@ -87,7 +91,7 @@
                 } else {
                     document.cookie = "cook=open";
                     if (document.cookie.length != 0) {
-                       return true;
+                        return true;
                     } else {
                         alert("Not Confirm..")
                         return fasle;
@@ -106,12 +110,12 @@
 
                 x = document.cookie.split("=")
                 if (x[1] == "open") {
-                myans.innerHTML = "<iframe src=' myshow.html' ></iframe>";
+                    myans.innerHTML = "<iframe src=' myshow.html' ></iframe>";
                     document.cookie = "cook=open;max-age=" + (0) + ";";
                 } else {
                     alert("First Confirm Your order")
                 }
-              
+
 
             }
 

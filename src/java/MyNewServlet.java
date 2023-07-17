@@ -30,7 +30,7 @@ public class MyNewServlet extends HttpServlet {
         prt = res.getWriter();
 
         String i_name, i_Quantity, myf;
-        int i_Price = 0, Total = 0;
+        int Total = 0;
         myf = req.getParameter("show");
         i_name = req.getParameter("menu");
         i_Quantity = req.getParameter("Quantity");
@@ -55,19 +55,14 @@ public class MyNewServlet extends HttpServlet {
             }
         } //show data if
         else if (myf.equals("sub") == true) {
-            switch (i_name) {
-                case "Tea" ->
-                    i_Price = 100;
-                case "Cofee" ->
-                    i_Price = 200;
-                case "Samosa" ->
-                    i_Price = 300;
-            }
-            int x = Integer.parseInt(i_Quantity);
-            Total = i_Price * x;
+            String a[] = i_name.split("/");
+            int p1 = Integer.parseInt(a[1]);
+            
+            int q1 = Integer.parseInt(i_Quantity);
+            Total = p1* q1;
 
             try {
-                boolean b1 = st.execute("insert into item_menu values('" + i_name + "'," + i_Quantity + "," + i_Price + "," + Total + ")  ");
+                boolean b1 = st.execute("insert into item_menu values('" + a[0] + "'," + i_Quantity + "," + a[1] + "," + Total + ")  ");
                 if (b1 == false) {
                     res.sendRedirect("index.html");
 
