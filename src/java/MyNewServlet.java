@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 @WebServlet(urlPatterns = {"/MyNewServlet"})
 public class MyNewServlet extends HttpServlet {
 
+    PrintWriter prt;
     Connection c1;
     Statement st;
 
@@ -15,8 +16,8 @@ public class MyNewServlet extends HttpServlet {
     public void init() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            c1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbemp?zeroDateTimeBehavior="
-                    + "CONVERT_TO_NULL", "root", "root");
+            c1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb1?zeroDateTimeBehavior="
+                    + "CONVERT_TO_NULL", "root", "root1234");
             st = c1.createStatement();
         } catch (Exception e) {
         }
@@ -26,19 +27,17 @@ public class MyNewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         res.setContentType("text/html");
-        PrintWriter prt = res.getWriter();
+        prt = res.getWriter();
 
         String i_name, i_Quantity, myf;
         int i_Price = 0, Total = 0;
-
         myf = req.getParameter("show");
         i_name = req.getParameter("menu");
         i_Quantity = req.getParameter("Quantity");
 
         if (myf.equals("s1") == true) {
             try {
-
-                ResultSet rs = st.executeQuery("Select * from item_menu ");
+                ResultSet rs = st.executeQuery("Select * from item_menu");
                 prt.print("<style>th{border:2px solid red;background-color:yellow;}"
                         + "td{border:2px solid green;background-color:#FF95FFB7;}</style>"
                         + "<table><th>Item_Name</th>"
@@ -47,18 +46,15 @@ public class MyNewServlet extends HttpServlet {
                         + "<th>Total Amount</th>");
                 while (rs.next()) {
                     prt.print("<tr><td>" + rs.getString(1) + "</td>"
-                                 + "<td>" + rs.getString(2) + "</td>"
-                                 + "<td>" + rs.getString(3) + "</td>"
-                                 + "<td>" + rs.getString(4) + "</td></tr>");
+                            + "<td>" + rs.getString(2) + "</td>"
+                            + "<td>" + rs.getString(3) + "</td>"
+                            + "<td>" + rs.getString(4) + "</td></tr>");
                 }
                 prt.print("</table>");
-
             } catch (SQLException e) {
-
-            }//show data if
-
-        } else if (myf.equals("sub") == true) {
-
+            }
+        } //show data if
+        else if (myf.equals("sub") == true) {
             switch (i_name) {
                 case "Tea" ->
                     i_Price = 100;
@@ -73,23 +69,22 @@ public class MyNewServlet extends HttpServlet {
             try {
                 boolean b1 = st.execute("insert into item_menu values('" + i_name + "'," + i_Quantity + "," + i_Price + "," + Total + ")  ");
                 if (b1 == false) {
-                res.sendRedirect("index.html");
+                    res.sendRedirect("index.html");
 
                 }
             } catch (SQLException e) {
             }
 
         }//submit else if
-        else if(myf.equals("remove") == true){
+        else if (myf.equals("remove") == true) {
             try {
-                boolean b2=st.execute("delete from item_menu where 1=1");
-                if(b2==false){
-                res.sendRedirect("myshow.html");
+                boolean b2 = st.execute("delete from item_menu where 1=1");
+                if (b2 == false) {
+                    res.sendRedirect("myshow.html");
                 }
             } catch (Exception e) {
             }
-        }
-
+        }//delete else if
     }
 
     @Override
